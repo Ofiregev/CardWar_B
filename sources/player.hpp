@@ -3,14 +3,16 @@
 #define PLAYER_HPP
 #include <iostream>
 #include <string>
-#include "stack.hpp"
+#include <vector>
+#include "card.hpp"
 
 using namespace std;
 namespace ariel {
     class Player {
         private:
             string name;
-            Stack personal_stack;
+            //Stack personal_stack;
+            vector<Card> personal_stack;
             string status;
             int cards_taken = 0;
             int draws_number = 0;
@@ -19,10 +21,10 @@ namespace ariel {
             
         public:
             Player();
-
             Player(string name); // Constructor
             void setStackSize(int size);
-            Stack getPersonalStack();
+            void generateStack();
+            // Stack getPersonalStack();
             void setCardsTaken(int cards);
             string get_name();
             int stacksize();

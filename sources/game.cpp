@@ -13,9 +13,10 @@ namespace ariel
         this->p1 = p1;
         this->p2 = p2;
         this->last_turn = "startig game";
-        this->p1.getPersonalStack().setStackSize(26);
-        this->p2.getPersonalStack().setStackSize(26);
-        this->generateCardStack();
+        this->p1.generateStack();
+        this->p2.generateStack();
+
+        
         
     }
     void Game::war(){
@@ -38,7 +39,7 @@ namespace ariel
         }
     }
     void Game::draw(){
-        p1.getPersonalStack().takeAcard();
+        
 
 
     }
