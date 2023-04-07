@@ -21,6 +21,14 @@ namespace ariel
     {
         return this->number;
     }
+    Sign Card::getSign()
+    {
+        return this->sign;
+    }
+    Color Card::getColor()
+    {
+        return this->color;
+    }
     string Card::toString(){
         return "card";
     }
@@ -32,6 +40,13 @@ namespace ariel
         return c;
         
     }
+    bool Card::check_equal(const Card c1, const Card c2){
+        return (c1.sign == c2.sign && c1.number == c2.number && c1.color == c2.color);
+
+    }
+    bool Card::operator==(const Card& other) const {
+    return sign == other.sign && number == other.number && color == other.color;
+}
 
 
 }

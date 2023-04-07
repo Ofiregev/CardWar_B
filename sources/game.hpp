@@ -16,7 +16,7 @@ namespace ariel
     string log = "";
     std::vector<Card> cards_stack;
   public:
-    Game(Player p1, Player p2); // Constructor
+    Game(Player &p1, Player &p2); // Constructor
     void playTurn();
     void printLastTurn();
     void playAll();

@@ -45,10 +45,13 @@ namespace ariel {
             Card();
             Card(Number num, Sign sign, Color color);
             Number getNumber();
+            Sign getSign();
+            Color getColor();
             Card getCard();
             string toString();
             Card generateCard();
-
+            bool check_equal(Card a, Card b);
+            bool operator==(const Card& other) const ;
   };
 }
 
