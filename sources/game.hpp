@@ -8,9 +8,10 @@ namespace ariel
 {
   class Game
   {
+    
     private:
-    Player p1;
-    Player p2;
+    Player *p1;
+    Player *p2;
     string last_turn = "starting game";
     Player winner;
     string log = "";
@@ -26,14 +27,12 @@ namespace ariel
     void war();
     string getLastTurn();
     void setLastTurn(string last_turn);
-    Player getWinner();
+    Player& getWinner();
     void setWinner(Player name);
     string getLog();
     void setLog(string name);
     void draw();
     void generateCardStack();
-
-
   };
 }
 
