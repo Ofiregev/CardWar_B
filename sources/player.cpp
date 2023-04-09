@@ -72,17 +72,16 @@ namespace ariel
         }
         this->cards_taken = this->cards_taken + cards;
     }
-
+    void Player::setDrawsNumberForPlayer(int num)
+    {
+        this->draws_number = this->draws_number + num;
+    }
     string Player::getStatus()
     {
         return "draws: " + (std::to_string(this->draws_number) + " win rounds: " + std::to_string(this->points) + " cards that taken: " + std::to_string(this->cardesTaken()) + '\n');
     }
 
-    void Player::setDrawsNumber(int num)
-    {
-        this->draws_number = this->draws_number + 1;
-    }
-
+    
     void Player::takeAcard() // pop a card from the stack without get it (only put it in the game)
     {
         this->personal_stack.erase(personal_stack.begin());

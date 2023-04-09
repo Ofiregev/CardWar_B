@@ -18,6 +18,8 @@ namespace ariel
     std::vector<Card> cards_stack;
     int num_of_draw = 0;
     bool flag = false;
+    int draws = 0;
+    
 
   public:
     Game(Player &p1, Player &p2); // Constructor
@@ -36,6 +38,7 @@ namespace ariel
     void setLog(string name);
     void draw();
     void generateCardStack();
+    void setDrawsGame(int num);
   };
 }
 

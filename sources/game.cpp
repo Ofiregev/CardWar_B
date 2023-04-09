@@ -63,9 +63,8 @@ namespace ariel
             if (this->num_of_draw > 0)
             {
                 p2->setCardsTaken(2 * num_of_draw + 4);
-                // adding 1 to the number of draws that p2 won in
-                p2->setDrawsNumber(1);
-
+                p2->setDrawsNumberForPlayer(1);
+                this->setDrawsGame(num_of_draw);
                 this->num_of_draw = 0;
             }
             else
@@ -88,8 +87,8 @@ namespace ariel
             if (this->num_of_draw > 0)
             {
                 p1->setCardsTaken(2 * num_of_draw + 4);
-                // adding 1 to the number of draws that p1 won in
-                p1->setDrawsNumber(1);
+                p1->setDrawsNumberForPlayer(1);
+                this->setDrawsGame(num_of_draw);
                 this->num_of_draw = 0;
             }
             else
@@ -109,7 +108,8 @@ namespace ariel
             if (this->num_of_draw > 0)
             {
                 p2->setCardsTaken(2 * num_of_draw + 4);
-                p2->setDrawsNumber(1);
+                p2->setDrawsNumberForPlayer(1);
+                this->setDrawsGame(num_of_draw);
                 this->num_of_draw = 0;
             }
             else
@@ -127,7 +127,8 @@ namespace ariel
             if (this->num_of_draw > 0)
             {
                 p1->setCardsTaken(2 * num_of_draw + 4);
-                p1->setDrawsNumber(1);
+                p1->setDrawsNumberForPlayer(1);
+                this->setDrawsGame(num_of_draw);
                 this->num_of_draw = 0;
             }
             else
@@ -155,6 +156,7 @@ namespace ariel
                 // each player gets half of the cards
                 p1->setCardsTaken(num_of_draw * 2 + 1);
                 p2->setCardsTaken(num_of_draw * 2 + 1);
+                this->setDrawsGame(num_of_draw);
                 this->num_of_draw = 0;
             }
             else
@@ -187,6 +189,10 @@ namespace ariel
         p2->takeAcard();
         this->num_of_draw += 1;
         this->war();
+    }
+    void Game::setDrawsGame(int num)
+    {
+        this->draws = this->draws + num;
     }
 
     void Game::printLastTurn()
@@ -225,7 +231,7 @@ namespace ariel
     void Game::printWiner()
     {
 
-        if (p1->getPoints() > p2->getPoints())
+        if (p1->cardesTaken() > p2->cardesTaken())
         {
             cout << "The winner is " + p1->getName() << endl;
         }
@@ -242,7 +248,8 @@ namespace ariel
 
     void Game::printStats()
     {
-        cout << p1->getStatus() + p2->getStatus();
+        cout << "number of draws in this game : " + std::to_string(this->draws) <<endl;
+        cout << p1->getName() + " status: " + p1->getStatus() + p2->getName() + " status: " + p2->getStatus();
     }
 
     void Game::playTurn()
@@ -254,7 +261,6 @@ namespace ariel
         }
         if (p1 == p2)
         {
-            cout << p1 << p2 << endl;
             throw std::runtime_error("The game cannot be played with one player");
         }
         this->war();

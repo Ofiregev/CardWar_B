@@ -33,7 +33,7 @@ namespace ariel
         void setPoints(int point);
         Card liftCard();
         string getStatus();
-        void setDrawsNumber(int num);
+        void setDrawsNumberForPlayer(int num);
         void setPersonalStack(vector<Card> *ps);
         void takeAcard();
     };
