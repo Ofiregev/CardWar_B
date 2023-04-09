@@ -15,6 +15,7 @@ namespace ariel
         this->p1 = &p_1;
         this->p2 = &p_2;
         this->last_turn = "starting game";
+        this->draws = 0;
         this->generateCardStack();
     }
 
