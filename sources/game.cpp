@@ -78,7 +78,7 @@ namespace ariel
         if (p2_card.getNumber() == 2 && p1_card.getNumber() == 1) // A beat 2 but lose to all other cards
         {
             // point for the wining in this turn
-            p2->setPoints(1);
+            p1->setPoints(1);
             // updating the log
             this->setLastTurn(p1->getName() + " played- " + p1_card.toString() + "\n" + p2->getName() + " played- " + p2_card.toString() + "." + p1->getName() + "win \n");
             this->setLog(this->last_turn);
@@ -107,8 +107,8 @@ namespace ariel
             this->setLog(this->last_turn);
             if (this->num_of_draw > 0)
             {
-                p2->setCardsTaken(2 * num_of_draw + 4);
-                p2->setDrawsNumberForPlayer(1);
+                p1->setCardsTaken(2 * num_of_draw + 4);
+                p1->setDrawsNumberForPlayer(1);
                 this->setDrawsGame(num_of_draw);
                 this->num_of_draw = 0;
             }
@@ -116,7 +116,7 @@ namespace ariel
             {
                 // regular turn (p2 takes his card and p1's card)
 
-                p2->setCardsTaken(2);
+                p1->setCardsTaken(2);
             }
         }
         else if (p2_card.getNumber() > p1_card.getNumber())
@@ -126,15 +126,15 @@ namespace ariel
             this->setLog(this->last_turn);
             if (this->num_of_draw > 0)
             {
-                p1->setCardsTaken(2 * num_of_draw + 4);
-                p1->setDrawsNumberForPlayer(1);
+                p2->setCardsTaken(2 * num_of_draw + 4);
+                p2->setDrawsNumberForPlayer(1);
                 this->setDrawsGame(num_of_draw);
                 this->num_of_draw = 0;
             }
             else
             {
                 // regular turn (p1 takes his card and p2's card)
-                p1->setCardsTaken(2);
+                p2->setCardsTaken(2);
             }
         }
         else
@@ -248,7 +248,8 @@ namespace ariel
 
     void Game::printStats()
     {
-        cout << "number of draws in this game : " + std::to_string(this->draws) <<endl;
+        int calc = (this->draws / 26)*100;
+        cout << "draw rate : " + std::to_string(calc) <<endl;
         cout << p1->getName() + " status: " + p1->getStatus() + p2->getName() + " status: " + p2->getStatus();
     }
 

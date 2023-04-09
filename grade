@@ -1,5 +1,6 @@
 #!/bin/bash
 source grade_utils
+
 TIMEOUT=20
 run_in_folder_if_exists "$1"
 
@@ -13,6 +14,7 @@ i=0
 
 let "i=i+1"
 printf "\n\n### Check $i: all tests should pass\n"
+mkdir -p "objects"
 call make -f Makefile test1
 grade_command ./test1
 printf "### Score $i: $grade\n"
