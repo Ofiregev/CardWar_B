@@ -16,7 +16,6 @@ namespace ariel
         this->last_turn = "starting game";
         this->generateCardStack();
 
-        cout << "after generating2 : " + std::to_string(p_1.stacksize()) << endl;
 
     }
 
