@@ -13,7 +13,7 @@ namespace ariel
 
     Player::Player(string name) : name(name), personal_stack(vector<Card>()) {}
 
-        void Player::setPersonalStack(vector<Card> *stack)
+    void Player::setPersonalStack(vector<Card> *stack)
     {
         // Check that the input vector has exactly 26 cards
         if (stack->size() != 26)
@@ -81,7 +81,6 @@ namespace ariel
         return "draws: " + (std::to_string(this->draws_number) + " win rounds: " + std::to_string(this->points) + " cards that taken: " + std::to_string(this->cardesTaken()) + '\n');
     }
 
-    
     void Player::takeAcard() // pop a card from the stack without get it (only put it in the game)
     {
         this->personal_stack.erase(personal_stack.begin());
