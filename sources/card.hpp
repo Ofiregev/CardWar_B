@@ -4,17 +4,18 @@
 #include <string>
 using namespace std;
 
-
-
-namespace ariel {
-    enum Sign {
+namespace ariel
+{
+    enum Sign
+    {
         Heart,
         Diamond,
         Club,
         Spade
     };
 
-    enum Number {
+    enum Number
+    {
         Ace = 1,
         Two = 2,
         Three = 3,
@@ -30,29 +31,31 @@ namespace ariel {
         King = 13
     };
 
-    enum Color {
+    enum Color
+    {
         Red,
         Black
     };
 
-    class Card {
-        private:
-            Sign sign;
-            Number number;
-            Color color;
+    class Card
+    {
+    private:
+        Sign sign;
+        Number number;
+        Color color;
 
-        public:
-            Card();
-            Card(Number num, Sign sign, Color color);
-            Number getNumber();
-            Sign getSign();
-            Color getColor();
-            Card getCard();
-            string toString();
-            Card generateCard();
-            bool check_equal(Card a, Card b);
-            bool operator==(const Card& other) const ;
-  };
+    public:
+        Card();
+        Card(Number num, Sign sign, Color color);
+        Number getNumber();
+        Sign getSign();
+        Color getColor();
+        Card getCard();
+        string toString();
+        Card generateCard();
+        bool check_equal(Card a, Card b);
+        bool operator==(const Card &other) const;
+    };
 }
 
 #endif

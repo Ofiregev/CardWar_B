@@ -8,14 +8,17 @@ namespace ariel
 {
   class Game
   {
-    
-    private:
+
+  private:
     Player *p1;
     Player *p2;
     string last_turn = "starting game";
     Player winner;
     string log = "";
     std::vector<Card> cards_stack;
+    int num_of_draw = 0;
+    bool flag = false;
+
   public:
     Game(Player &p1, Player &p2); // Constructor
     void playTurn();
@@ -27,7 +30,7 @@ namespace ariel
     void war();
     string getLastTurn();
     void setLastTurn(string last_turn);
-    Player& getWinner();
+    Player &getWinner();
     void setWinner(Player name);
     string getLog();
     void setLog(string name);
