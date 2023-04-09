@@ -31,5 +31,9 @@ namespace ariel
         return std::to_string(this->number) + " " + std::to_string(this->sign) + " " + std::to_string(this->color);
         ;
     }
+    bool Card::operator==(const Card &other) const
+    {
+        return sign == other.sign && number == other.number && color == other.color;
+    }
 
 }

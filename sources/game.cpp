@@ -44,45 +44,63 @@ namespace ariel
 
     void Game::war()
     {
+        // each player takes one card from his stack
         Card p1_card = p1->liftCard();
         Card p2_card = p2->liftCard();
 
-        if (p1_card.getNumber() == 2 && p2_card.getNumber() == 1) // A beat 2 but lose to all other cards
+        //"A" VS 2
+
+        // "A" beat 2 but lose to all other cards so in this case p2 wins
+        if (p1_card.getNumber() == 2 && p2_card.getNumber() == 1)
         {
+            // point for the wining in this turn
             p2->setPoints(1);
-            this->setLastTurn(p1->getName() + " played- " + p1_card.toString() + "\n" + p2->getName() + " played- " + p2_card.toString() + "." + p2->getName() + "win \n");
+            // updating the log
+            this->setLastTurn(p1->getName() + " played- " + p1_card.toString() + "\n" + p2->getName() + " played- " + p2_card.toString() + "." + p2->getName() + " win \n");
             this->setLog(this->last_turn);
+
             // check how many cards need to be add to the player (according to the number of draws)
             if (this->num_of_draw > 0)
             {
                 p2->setCardsTaken(2 * num_of_draw + 4);
+                // adding 1 to the number of draws that p2 won in
                 p2->setDrawsNumber(1);
+
                 this->num_of_draw = 0;
             }
             else
             {
+                // regular turn (p2 takes his card and p1's card)
                 p2->setCardsTaken(2);
             }
             return;
         }
+        // "A" beat 2 but lose to all other cards so in this case p1 wins
         if (p2_card.getNumber() == 2 && p1_card.getNumber() == 1) // A beat 2 but lose to all other cards
         {
+            // point for the wining in this turn
             p2->setPoints(1);
+            // updating the log
             this->setLastTurn(p1->getName() + " played- " + p1_card.toString() + "\n" + p2->getName() + " played- " + p2_card.toString() + "." + p1->getName() + "win \n");
             this->setLog(this->last_turn);
+
             // check how many cards need to be add to the player (according to the number of draws)
             if (this->num_of_draw > 0)
             {
                 p1->setCardsTaken(2 * num_of_draw + 4);
+                // adding 1 to the number of draws that p1 won in
                 p1->setDrawsNumber(1);
                 this->num_of_draw = 0;
             }
             else
             {
+                // regular turn (p1 takes his card and p2's card)
                 p1->setCardsTaken(2);
             }
             return;
         }
+
+        // All other cards war (not A vs 2) - the bigger wins
         if (p1_card.getNumber() > p2_card.getNumber())
         {
             p1->setPoints(1);
@@ -96,6 +114,8 @@ namespace ariel
             }
             else
             {
+                // regular turn (p2 takes his card and p1's card)
+
                 p2->setCardsTaken(2);
             }
         }
@@ -112,45 +132,53 @@ namespace ariel
             }
             else
             {
+                // regular turn (p1 takes his card and p2's card)
                 p1->setCardsTaken(2);
             }
         }
         else
         {
+            // if the numbers of the cards are equal - it's a draw
             this->draw();
         }
     }
 
     void Game::draw()
     {
-        if (p1->stacksize() == 0 || p2->stacksize() == 0) // no more cards to play
+        // Checking breaking points
+        //  no more cards to play
+        if (p1->stacksize() == 0 || p2->stacksize() == 0)
         {
+            // it's not the first draw in a row but there aren't more cards
             if (this->num_of_draw > 0)
             {
                 // each player gets half of the cards
-                p1->setCardsTaken(num_of_draw + 2);
-                p2->setCardsTaken(num_of_draw + 2);
+                p1->setCardsTaken(num_of_draw * 2 + 1);
+                p2->setCardsTaken(num_of_draw * 2 + 1);
                 this->num_of_draw = 0;
             }
             else
             {
+                // it's the first draw, there no more cards so taking the equal card
                 p1->setCardsTaken(1);
                 p2->setCardsTaken(1);
             }
         }
+        // only one more card to play
         else if (p1->stacksize() == 1 && p2->stacksize() == 1)
         {
+            p1->takeAcard();
+            p2->takeAcard();
+            // now there are no more cards and the rest like the condition above
             if (this->num_of_draw > 0)
             {
                 // each player gets half of the cards
-                p1->setCardsTaken(num_of_draw + 2);
-                p2->setCardsTaken(num_of_draw + 2);
+                p1->setCardsTaken(num_of_draw * 2 + 2);
+                p2->setCardsTaken(num_of_draw * 2 + 2);
                 this->num_of_draw = 0;
             }
             else
             {
-                p1->takeAcard();
-                p2->takeAcard();
                 p1->setCardsTaken(2);
                 p2->setCardsTaken(2);
             }

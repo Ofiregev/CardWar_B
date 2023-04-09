@@ -53,7 +53,7 @@ namespace ariel
         this->points = this->points + point;
     }
 
-    Card Player::liftCard()
+    Card Player::liftCard() // get a card from the stack
     {
         if (!this->personal_stack.empty())
         {
@@ -83,7 +83,7 @@ namespace ariel
         this->draws_number = this->draws_number + 1;
     }
 
-    void Player::takeAcard()
+    void Player::takeAcard() // pop a card from the stack without get it (only put it in the game)
     {
         this->personal_stack.erase(personal_stack.begin());
     }
