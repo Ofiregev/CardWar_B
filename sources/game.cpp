@@ -248,9 +248,10 @@ namespace ariel
 
     void Game::printStats()
     {
-        int calc = (this->draws / 26)*100;
-        cout << "draw rate : " + std::to_string(calc) <<endl;
+        cout << "draw rate : " + std::to_string(this->draws) <<endl;
         cout << p1->getName() + " status: " + p1->getStatus() + p2->getName() + " status: " + p2->getStatus();
+        this->p1->getPersonalStack().clear(); 
+        this->p2->getPersonalStack().clear(); 
     }
 
     void Game::playTurn()
