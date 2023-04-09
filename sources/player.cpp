@@ -13,33 +13,7 @@ namespace ariel
 
     Player::Player(string name) : name(name), personal_stack(vector<Card>()) {}
 
-    void Player::generateStack(vector<Card> &ps)
-    {
-        while (ps.size() < 26)
-        {
-            Number num = static_cast<Number>(rand() % 13 + 1);
-            Sign sign = static_cast<Sign>(rand() % 4);
-            Color color = (sign == Heart || sign == Diamond) ? Red : Black;
-
-            // check if the card is already in the deck
-            Card card(num, sign, color);
-            auto it = std::find(ps.begin(), ps.end(), card);
-
-            if (it == ps.end())
-            {
-                ps.push_back(card);
-            }
-        }
-    }
-
-    void Player::setStackSize(vector<Card> &size)
-    {
-        personal_stack = size;
-        personal_stack_size = personal_stack.size(); // update the size variable
-        cout << "pss: " + std::to_string(personal_stack_size) << endl;
-    }
-
-    void Player::setPersonalStack(vector<Card> *stack)
+        void Player::setPersonalStack(vector<Card> *stack)
     {
         // Check that the input vector has exactly 26 cards
         if (stack->size() != 26)
@@ -106,7 +80,7 @@ namespace ariel
 
     void Player::setDrawsNumber(int num)
     {
-        this->draws_number = num;
+        this->draws_number = this->draws_number + 1;
     }
 
     void Player::takeAcard()

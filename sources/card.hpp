@@ -52,9 +52,6 @@ namespace ariel
         Color getColor();
         Card getCard();
         string toString();
-        Card generateCard();
-        bool check_equal(Card a, Card b);
-        bool operator==(const Card &other) const;
     };
 }
 
