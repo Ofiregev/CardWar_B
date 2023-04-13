@@ -19,6 +19,7 @@ namespace ariel
     int num_of_draw = 0;
     bool flag = false;
     int draws = 0;
+    int rounds = 0;
     
 
   public:

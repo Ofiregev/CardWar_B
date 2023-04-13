@@ -16,7 +16,6 @@ namespace ariel
 
     enum Number
     {
-        Ace = 1,
         Two = 2,
         Three = 3,
         Four = 4,
@@ -28,7 +27,9 @@ namespace ariel
         Ten = 10,
         Jack = 11,
         Queen = 12,
-        King = 13
+        King = 13,
+        Ace = 14
+        
     };
 
     enum Color
@@ -53,6 +54,9 @@ namespace ariel
         Card getCard();
         string toString();
         bool operator==(const Card &other) const;
+        string to_string(const Color& color);
+        string to_string(const Sign& sign);
+        string to_string(const Number& number);
     };
 }
 

@@ -24,7 +24,7 @@ namespace ariel
         srand(time(NULL));                    // Seed the random number generator
         while (this->cards_stack.size() < 52) // generate cards stack
         {
-            Number num = static_cast<Number>(rand() % 13 + 1);
+            Number num = static_cast<Number>(rand() % 13 + 2);
             Sign sign = static_cast<Sign>(rand() % 4);
             Color color = (sign == Heart || sign == Diamond) ? Red : Black;
 
@@ -45,19 +45,20 @@ namespace ariel
 
     void Game::war()
     {
+        this->rounds = this->rounds + 1;
         // each player takes one card from his stack
         Card p1_card = p1->liftCard();
         Card p2_card = p2->liftCard();
 
         //"A" VS 2
 
-        // "A" beat 2 but lose to all other cards so in this case p2 wins
-        if (p1_card.getNumber() == 2 && p2_card.getNumber() == 1)
+        // 2 beat Ace but lose to all other cards so in this case p2 wins
+        if (p1_card.getNumber() == 14 && p2_card.getNumber() == 2)
         {
             // point for the wining in this turn
             p2->setPoints(1);
             // updating the log
-            this->setLastTurn(p1->getName() + " played- " + p1_card.toString() + "\n" + p2->getName() + " played- " + p2_card.toString() + "." + p2->getName() + " win \n");
+            this->setLastTurn(p1->getName() + " played- " + p1_card.toString() + "\n" + p2->getName() + " played- " + p2_card.toString() + ".\n*** " + p2->getName() + " win ***\n");
             this->setLog(this->last_turn);
 
             // check how many cards need to be add to the player (according to the number of draws)
@@ -75,13 +76,13 @@ namespace ariel
             }
             return;
         }
-        // "A" beat 2 but lose to all other cards so in this case p1 wins
-        if (p2_card.getNumber() == 2 && p1_card.getNumber() == 1) // A beat 2 but lose to all other cards
+        // 2 beat Ace but lose to all other cards so in this case p1 wins
+        if (p2_card.getNumber() == 14 && p1_card.getNumber() == 2)
         {
             // point for the wining in this turn
             p1->setPoints(1);
             // updating the log
-            this->setLastTurn(p1->getName() + " played- " + p1_card.toString() + "\n" + p2->getName() + " played- " + p2_card.toString() + "." + p1->getName() + "win \n");
+            this->setLastTurn(p1->getName() + " played- " + p1_card.toString() + "\n" + p2->getName() + " played- " + p2_card.toString() + ".\n*** " + p1->getName() + " win ***\n");
             this->setLog(this->last_turn);
 
             // check how many cards need to be add to the player (according to the number of draws)
@@ -104,7 +105,7 @@ namespace ariel
         if (p1_card.getNumber() > p2_card.getNumber())
         {
             p1->setPoints(1);
-            this->setLastTurn(p1->getName() + " played- " + p1_card.toString() + "\n" + p2->getName() + " played- " + p2_card.toString() + "." + p1->getName() + " win \n");
+            this->setLastTurn(p1->getName() + " played- " + p1_card.toString() + "\n" + p2->getName() + " played- " + p2_card.toString() + ".\n*** " + p1->getName() + " win ***\n");
             this->setLog(this->last_turn);
             if (this->num_of_draw > 0)
             {
@@ -123,7 +124,7 @@ namespace ariel
         else if (p2_card.getNumber() > p1_card.getNumber())
         {
             p2->setPoints(1);
-            this->setLastTurn(p1->getName() + " played- " + p1_card.toString() + "\n" + p2->getName() + " played- " + p2_card.toString() + "." + p2->getName() + " win \n");
+            this->setLastTurn(p1->getName() + " played- " + p1_card.toString() + "\n" + p2->getName() + " played- " + p2_card.toString() + ".\n*** " + p2->getName() + " win ***\n");
             this->setLog(this->last_turn);
             if (this->num_of_draw > 0)
             {
@@ -140,6 +141,8 @@ namespace ariel
         }
         else
         {
+            this->setLastTurn(p1->getName() + " played- " + p1_card.toString() + "\n" + p2->getName() + " played- " + p2_card.toString() + " \n");
+            this->setLog(this->last_turn);
             // if the numbers of the cards are equal - it's a draw
             this->draw();
         }
@@ -188,6 +191,8 @@ namespace ariel
         }
         p1->takeAcard();
         p2->takeAcard();
+        this->setLastTurn("It's a draw! each player put one card upside down, let's continue---> \n");
+        this->setLog(this->last_turn);
         this->num_of_draw += 1;
         this->war();
     }
@@ -249,10 +254,13 @@ namespace ariel
 
     void Game::printStats()
     {
-        cout << "draw rate : " + std::to_string(this->draws) <<endl;
+        float draw_rate = static_cast<float>(this->draws) / this->rounds;
+        cout << "Number of rounds: " + std::to_string(this->rounds) << endl;
+        cout << "draw rate : " + std::to_string(draw_rate) << endl;
         cout << p1->getName() + " status: " + p1->getStatus() + p2->getName() + " status: " + p2->getStatus();
-        this->p1->getPersonalStack().clear(); 
-        this->p2->getPersonalStack().clear(); 
+        this->printWiner();
+        this->p1->getPersonalStack().clear();
+        this->p2->getPersonalStack().clear();
     }
 
     void Game::playTurn()
