@@ -9,28 +9,31 @@ using namespace std;
 
 namespace ariel
 {
-
+    // Constructor that initializes p1 and p2 with the addresses of the two Player objects passed as arguments
+    // and generate a stack to each of the players
+    // By using references, the constructor can access the original Player objects passed as arguments rather than creating copies.
     Game::Game(Player &p_1, Player &p_2)
     {
         this->p1 = &p_1;
         this->p2 = &p_2;
-        this->last_turn = "starting game";
-        this->draws = 0;
         this->generateCardStack();
     }
 
+    // This function generate a stack randomly according to the enoms that defined in the "card" class
+    // and divide the stack to eack player
     void Game::generateCardStack()
     {
         srand(time(NULL));                    // Seed the random number generator
         while (this->cards_stack.size() < 52) // generate cards stack
         {
-            Number num = static_cast<Number>(rand() % 13 + 2);
+            Number num = static_cast<Number>(rand() % 13 + 2); // generate a number between 2-14
             Sign sign = static_cast<Sign>(rand() % 4);
             Color color = (sign == Heart || sign == Diamond) ? Red : Black;
-
-            // check if the card is already in the deck
+            // generate the spesific card
             Card card(num, sign, color);
+            // check if the card is already in the deck
             auto it = std::find(cards_stack.begin(), cards_stack.end(), card);
+            // if such card not exist, push it to the end of the vector
             if (it == cards_stack.end())
             {
                 cards_stack.push_back(card);
@@ -43,19 +46,21 @@ namespace ariel
         this->p2->setPersonalStack(&second_half);
     }
 
+    // This function represent the actuall game - the war between the cards of the players
     void Game::war()
     {
+        // counting the number of rounds for statistics
         this->rounds = this->rounds + 1;
         // each player takes one card from his stack
         Card p1_card = p1->liftCard();
         Card p2_card = p2->liftCard();
 
-        //"A" VS 2
+        //                           *** Ace VS 2 ***
 
         // 2 beat Ace but lose to all other cards so in this case p2 wins
         if (p1_card.getNumber() == 14 && p2_card.getNumber() == 2)
         {
-            // point for the wining in this turn
+            // adding a point for the wining in this turn - The points represents the number of wining rounds
             p2->setPoints(1);
             // updating the log
             this->setLastTurn(p1->getName() + " played- " + p1_card.toString() + "\n" + p2->getName() + " played- " + p2_card.toString() + ".\n*** " + p2->getName() + " win ***\n");
@@ -64,7 +69,7 @@ namespace ariel
             // check how many cards need to be add to the player (according to the number of draws)
             if (this->num_of_draw > 0)
             {
-                p2->setCardsTaken(2 * num_of_draw + 4);
+                p2->setCardsTaken(6 + (num_of_draw - 1) * 4); // for 1 draw the player needs to take 6 cards, for two in a raw it's 10 and goes on...
                 p2->setDrawsNumberForPlayer(1);
                 this->setDrawsGame(num_of_draw);
                 this->num_of_draw = 0;
@@ -79,7 +84,7 @@ namespace ariel
         // 2 beat Ace but lose to all other cards so in this case p1 wins
         if (p2_card.getNumber() == 14 && p1_card.getNumber() == 2)
         {
-            // point for the wining in this turn
+            // adding a point for the wining in this turn - The points represents the number of wining rounds
             p1->setPoints(1);
             // updating the log
             this->setLastTurn(p1->getName() + " played- " + p1_card.toString() + "\n" + p2->getName() + " played- " + p2_card.toString() + ".\n*** " + p1->getName() + " win ***\n");
@@ -88,7 +93,7 @@ namespace ariel
             // check how many cards need to be add to the player (according to the number of draws)
             if (this->num_of_draw > 0)
             {
-                p1->setCardsTaken(2 * num_of_draw + 4);
+                p1->setCardsTaken(6 + (num_of_draw - 1) * 4);
                 p1->setDrawsNumberForPlayer(1);
                 this->setDrawsGame(num_of_draw);
                 this->num_of_draw = 0;
@@ -101,15 +106,17 @@ namespace ariel
             return;
         }
 
-        // All other cards war (not A vs 2) - the bigger wins
+        //                    ***  All other cards wars (not Ace vs 2) - the bigger wins ***
         if (p1_card.getNumber() > p2_card.getNumber())
         {
             p1->setPoints(1);
             this->setLastTurn(p1->getName() + " played- " + p1_card.toString() + "\n" + p2->getName() + " played- " + p2_card.toString() + ".\n*** " + p1->getName() + " win ***\n");
             this->setLog(this->last_turn);
+
+            // check how many cards need to be add to the player (according to the number of draws)
             if (this->num_of_draw > 0)
             {
-                p1->setCardsTaken(2 * num_of_draw + 4);
+                p1->setCardsTaken(6 + (num_of_draw - 1) * 4);
                 p1->setDrawsNumberForPlayer(1);
                 this->setDrawsGame(num_of_draw);
                 this->num_of_draw = 0;
@@ -126,9 +133,11 @@ namespace ariel
             p2->setPoints(1);
             this->setLastTurn(p1->getName() + " played- " + p1_card.toString() + "\n" + p2->getName() + " played- " + p2_card.toString() + ".\n*** " + p2->getName() + " win ***\n");
             this->setLog(this->last_turn);
+
+            // check how many cards need to be add to the player (according to the number of draws)
             if (this->num_of_draw > 0)
             {
-                p2->setCardsTaken(2 * num_of_draw + 4);
+                p2->setCardsTaken(6 + (num_of_draw - 1) * 4);
                 p2->setDrawsNumberForPlayer(1);
                 this->setDrawsGame(num_of_draw);
                 this->num_of_draw = 0;
@@ -143,6 +152,7 @@ namespace ariel
         {
             this->setLastTurn(p1->getName() + " played- " + p1_card.toString() + "\n" + p2->getName() + " played- " + p2_card.toString() + " \n");
             this->setLog(this->last_turn);
+
             // if the numbers of the cards are equal - it's a draw
             this->draw();
         }
@@ -150,7 +160,8 @@ namespace ariel
 
     void Game::draw()
     {
-        // Checking breaking points
+        //                              *** Checking breaking points ***
+
         //  no more cards to play
         if (p1->stacksize() == 0 || p2->stacksize() == 0)
         {
@@ -158,8 +169,8 @@ namespace ariel
             if (this->num_of_draw > 0)
             {
                 // each player gets half of the cards
-                p1->setCardsTaken(num_of_draw * 2 + 1);
-                p2->setCardsTaken(num_of_draw * 2 + 1);
+                p1->setCardsTaken(num_of_draw * 2 - 1);
+                p2->setCardsTaken(num_of_draw * 2 - 1);
                 this->setDrawsGame(num_of_draw);
                 this->num_of_draw = 0;
             }
@@ -170,7 +181,7 @@ namespace ariel
                 p2->setCardsTaken(1);
             }
         }
-        // only one more card to play
+        // only one more card left to play
         else if (p1->stacksize() == 1 && p2->stacksize() == 1)
         {
             p1->takeAcard();
@@ -179,8 +190,8 @@ namespace ariel
             if (this->num_of_draw > 0)
             {
                 // each player gets half of the cards
-                p1->setCardsTaken(num_of_draw * 2 + 2);
-                p2->setCardsTaken(num_of_draw * 2 + 2);
+                p1->setCardsTaken(num_of_draw * 2);
+                p2->setCardsTaken(num_of_draw * 2);
                 this->num_of_draw = 0;
             }
             else
@@ -196,6 +207,7 @@ namespace ariel
         this->num_of_draw += 1;
         this->war();
     }
+
     void Game::setDrawsGame(int num)
     {
         this->draws = this->draws + num;
@@ -210,11 +222,13 @@ namespace ariel
     {
         int stack_a = p1->stacksize();
         int stack_b = p2->stacksize();
+
         int size = stack_a;
         if (stack_b < stack_a)
         {
             size = stack_b;
         }
+        // play until all the cards in the stack ends
         for (size_t i = 0; i < size; i++)
         {
             if (p1->cardesTaken() + p2->cardesTaken() == 52) // we are in the end so get out
@@ -223,7 +237,7 @@ namespace ariel
             }
             if (i == 23) // we are in the turn before end
             {
-                this->flag = true;
+                //this->flag = true;
                 this->war();
             }
             else

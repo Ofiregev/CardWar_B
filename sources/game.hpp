@@ -17,7 +17,6 @@ namespace ariel
     string log = "";
     std::vector<Card> cards_stack;
     int num_of_draw = 0;
-    bool flag = false;
     int draws = 0;
     int rounds = 0;
     
