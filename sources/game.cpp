@@ -272,7 +272,6 @@ namespace ariel
         cout << "Number of rounds: " + std::to_string(this->rounds) << endl;
         cout << "draw rate : " + std::to_string(draw_rate) << endl;
         cout << p1->getName() + " status: " + p1->getStatus() + p2->getName() + " status: " + p2->getStatus();
-        this->printWiner();
         this->p1->getPersonalStack().clear();
         this->p2->getPersonalStack().clear();
     }
